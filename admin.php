@@ -11,9 +11,7 @@ header ("Location:login.php");
     } else if($_SESSION['iAmLogged'] == 0) {
         $navText = "<li><a href='bookings.php' class='link link--yaku'><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>";
     }
-    
-    
-    
+        
 $error="";
     
 // Selecting Users:
@@ -131,8 +129,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                           <?php echo $row['userID']; ?>: 
                           <?php echo $row['firstName']; ?> 
                           <?php echo $row['lastName']; ?>  
+                        <?php } ?>
                     </option>
-                    <?php } ?>
+                    
                     </select> 
             </div><br>
             
@@ -168,8 +167,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</p> <br><br>
 
     <span id="bookingError" >
-        <b style="color:red;"><?php echo $_SESSION['message'];
-        $_SESSION['message']= ""; ?></b>
+        <b style="color:red;">
+            <?php 
+            if (isset($_SESSION['message'])){
+                    echo $_SESSION['message'];
+                    $_SESSION['message'] == "hi";
+            }
+            ?> </b>
         </span>
 
     <script>
@@ -210,7 +214,7 @@ date.addEventListener('input',yesMondays);
         <th>User ID </th>
         <th>Date Booked</th>
 		<th>Course Start</th>
-        <th>Course End </th>
+        <!-- <th>Course End </th> -->
         <th>Course Type</th>
         <th>Gender</th>
 	</tr>
@@ -223,7 +227,7 @@ date.addEventListener('input',yesMondays);
         <td><?php echo strtoUpper($row['userID']) ?></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
         <td><?php echo strtoUpper($row['courseStart']) ?> </td>
-        <td><?php echo strtoUpper($row['courseEnd']) ?> </td>
+        <!--  <td>< ?php echo strtoUpper($row['courseEnd']) ?> </td> -->
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
         <td><?php echo strtoUpper($row['gender']) ?></td>
         <?php }  ?>

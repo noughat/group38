@@ -1,3 +1,11 @@
+<?php
+
+if (isset($_SESSION['loggedin'])){
+
+header ("Location:loggedin.php");
+
+}  
+?>
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com

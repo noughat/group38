@@ -139,10 +139,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         
 					</p> <br><br>
 
-    <span id="bookingError" >
+     <span id="bookingError" >
         <b style="color:red;"><?php echo $_SESSION['message'];
         $_SESSION['message']= ""; ?></b>
-        </span>
+    </span> 
 
     <script>
 

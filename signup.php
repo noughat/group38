@@ -320,6 +320,7 @@ label {
 		</div>
 		<br>
 		<div class="login">
+            <!-- SHOW REGISTER ERROR < ?php echo $_SESSION['message']; ?> -->
 		<form id="signup" action="process/processRegister.php" method="post">
 				<input type="text" placeholder="First Name" name="firstName" required /><br>
 				<input type="text" placeholder="Last Name" name="lastName" required /><br>
@@ -332,17 +333,17 @@ label {
             </label>
 
 				<input type="text" placeholder="Home Address" name="homeAddress" required /><br><br>
-                
-                <input type="text" placeholder="Date of Birth:" style="width:25%" disabled />
+                <input type="text" placeholder="D.O.B:" style="width:50px" disabled />
                 <input type="date" name="dateOfBirth" required /><br>
-			
-            <input type="number" placeholder="Mobile" name="mobile" required /><br><br>
+			    <input type="number" placeholder="Mobile" name="mobile" required /><br><br>
 				<div class="example">
 				<div>
-				&nbsp;<input id="male" type="radio" name="radio" value="male" checked="checked"><label for="male"><span><span></span></span>Male</label>
+				&nbsp;
+                    
+                <input id="male" type="radio" name="gender" value="male" checked="checked"><label for="male"><span><span></span></span>Male</label>
 				</div>
 				<div>
-				&nbsp;<input id="female" type="radio" name="radio" value="female"><label for="female"><span><span></span></span>Female</label>
+				&nbsp;<input id="female" type="radio" name="gender" value="female"><label for="female"><span><span></span></span>Female</label>
 				</div>
 				</div> <!-- end EXAMPLE -->
         
