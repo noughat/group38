@@ -9,3 +9,5 @@ however individual release points can also be seen in 'release1' branch and 'rel
 
 Most document development is performed through Google Drive, although this will be synced before submission of Release 1 and Release 2
 to ensure all documents are able to be viewed if needed.
+
+All documents are contained within the 'Documents' folder in each branch.
