@@ -129,7 +129,10 @@ a.button:hover {
             <div class='col-md-6'>
               <div class='form-group'>
                 <div class='col-md-11'>
-                  <br><input class='form-control' id='firstName' name="gender" value="<?php echo $_SESSION['gender']; ?>" type='text' required>
+                 <br><!-- <input class='form-control' id='firstName' name="gender" value="< ?php echo $_SESSION['gender']; ?>" type='radio' required> -->
+                    
+                    <input id="male" type="radio" name="gender" value="male" checked="checked" required><label for="male"><span><span></span></span>Male</label>
+                    <input id="female" type="radio" name="gender" value="female" required><label for="female"><span><span></span></span>Female</label>
                 </div>
               </div>
 			  </div>

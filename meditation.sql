@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2016 at 03:13 AM
+-- Generation Time: Sep 20, 2016 at 02:40 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -41,15 +41,11 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`bookingID`, `userID`, `date`, `courseStart`, `courseEnd`, `courseType`, `gender`) VALUES
-(123, 33, '2016-09-09', '2016-09-26', '0000-00-00', '3', ''),
-(124, 33, '2016-09-09', '2016-09-26', '0000-00-00', '3', ''),
-(141, 32, '2016-09-12', '2016-09-12', '0000-00-00', '3', 'male'),
-(144, 32, '2016-09-14', '2016-11-28', '0000-00-00', '3', 'male'),
-(145, 0, '2016-09-17', '2016-09-26', '0000-00-00', '3', 'male'),
-(146, 0, '2016-09-17', '2016-09-19', '0000-00-00', '10', 'male'),
-(149, 54, '2016-09-19', '2016-09-19', '0000-00-00', '3', 'female'),
-(151, 54, '2016-09-19', '2016-09-26', '0000-00-00', '3', 'female'),
-(152, 54, '2016-09-19', '2016-10-03', '0000-00-00', '3', 'female');
+(171, 0, '2016-09-20', '2016-09-26', '0000-00-00', '3', 'male'),
+(173, 0, '2016-09-20', '2016-10-24', '0000-00-00', '3', 'male'),
+(175, 54, '2016-09-20', '2016-09-26', '0000-00-00', '3', 'female'),
+(176, 57, '2016-09-20', '2016-09-26', '0000-00-00', '30', 'female'),
+(178, 54, '2016-09-20', '2016-12-19', '0000-00-00', '30', 'female');
 
 -- --------------------------------------------------------
 
@@ -100,9 +96,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `firstName`, `lastName`, `email`, `password`, `admin_privileges`, `gender`, `dateOfBirth`, `homeAddress`, `canBeServer`, `mobile`, `avatar`) VALUES
-(32, 'Dimitri', 'Karanasios', 'q', '8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf', 1, 'male', '1996-10-01', '11 address st', 0, 314245987, 'destiny.jpg'),
-(54, 'first1', 'last1', 'q1', '8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf', 0, 'female', '2015-12-08', 'address1', 0, 111111111, ''),
-(55, 'first2', 'last2', 'q2', '8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf', 0, 'male', '2016-09-14', 'address2', 0, 111111111, '');
+(32, 'Dimitri', 'Karanasios', 'q', '8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf', 1, 'male', '1996-10-01', '11 address st', 0, 33946283, ''),
+(54, 'James', 'Keat', 'email@email.com', 'd74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1', 0, 'male', '2015-12-08', '1 address st', 0, 38229911, ''),
+(57, 'Steph', 'Harrison', 'q1', '8e35c2cd3bf6641bdb0e2050b76932cbb2e6034a0ddacc1d9bea82a6ba57f7cf', 0, 'female', '1996-10-01', '11 address street', 0, 414071024, ''),
+(58, 'admin', 'last', 'admin', 'd74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1', 1, 'male', '1990-06-01', '11 admin Address', 0, 123456789, '');
 
 --
 -- Indexes for dumped tables
@@ -134,7 +131,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `bookingID` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `bookingID` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 --
 -- AUTO_INCREMENT for table `screenshots`
 --
@@ -144,7 +141,7 @@ ALTER TABLE `screenshots`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

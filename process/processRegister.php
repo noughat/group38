@@ -9,7 +9,7 @@ $dateOfBirth = mysqli_real_escape_string($con,$_POST['dateOfBirth']);
 $gender = mysqli_real_escape_string($con,$_POST['gender']);
 $mobile = mysqli_real_escape_string($con,$_POST['mobile']);
 $homeAddress = mysqli_real_escape_string($con,$_POST['homeAddress']);
-$avatar = mysqli_real_escape_string($con,$_POST['avatar']);
+//$avatar = mysqli_real_escape_string($con,$_POST['avatar']);
 $email = mysqli_real_escape_string($con,$_POST['email']);
 $password = mysqli_real_escape_string($con,$_POST['password']);
 $password = hash('sha256', $password);
@@ -31,16 +31,14 @@ if($error=="error")
 {
 echo $_SESSION['message'];
 
-    
-
-header("Location:../index.php"); 
+//header("Location:../signup.php"); 
 } else {
 echo "AWESOME LETS WRITE TO DATABASE ";
 
    
 //If email doesnt exist --> Create account
-$sql= "INSERT INTO users(firstName, lastName, dateOfBirth, gender, mobile, homeAddress, email, password,avatar) 
-                VALUES ('$firstName','$lastName','$dateOfBirth','$gender','$mobile','$homeAddress','$email','$password','$avatar')";
+$sql= "INSERT INTO users(firstName, lastName, dateOfBirth, gender, mobile, homeAddress, email, password) 
+                VALUES ('$firstName','$lastName','$dateOfBirth','$gender','$mobile','$homeAddress','$email','$password')";
 
 
 mysqli_query($con, $sql) or die(mysqli_error($con));
