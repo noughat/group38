@@ -1,6 +1,8 @@
 <?php
 include "serverConnection.php";
 
+ $messageUserID = $_GET['messageUserID'];
+
 if (!(isset($_SESSION['login']))){
 header ("Location:login.php");
 } else if(isset($_SESSION['iAmLogged'] )){
@@ -15,12 +17,12 @@ header ("Location:login.php");
 $error="";
     
 // Selecting Users:
-$userinfo = "SELECT * FROM users";
+$userinfo = "SELECT * FROM users where userID = $messageUserID";
 $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
     
 
-// Selecting User Bookings for making a booking:
-$userBookinginfo = "SELECT * FROM bookings";
+// Selecting messages Bookings for viewing:
+$userBookinginfo = "SELECT * FROM messages where userID = $messageUserID";
 $bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
     
 // Selecting User Bookings for deletion:
@@ -111,108 +113,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="codes">
 		<div class="container">
 			<h3 class="title">Admin</h3>
-<div id="adminTitle">
-    <hr> 	
-    <b><a href="admin.php"> Course Bookings </a></b> |
-    <a href="adminMessages.php"> Messages </a> |
-    <a href="adminServers.php"> Server Bookings </a>
-    <hr> 	
-</div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 ------------------------------------------------------------------------------->
-
-            
 <div id="container">
-    <div id="bookNow">
-    <br>
-        <form action="process/adminBooking.php" method="post" id="classBooking">        
-<table class="adminBooking">
-	<thead>
-	<tr>
-        <th>User ID</th>
-        <th>Gender ID </th>
-        <th>Course Type</th>
-		<th>Course Start</th>
-        <th>Confirm</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-        <td>
-        <select name="userID" >
-                    <?php while($row = mysqli_fetch_array($loginpage)) { ?>
-                    <option value="<?php $row['userID']; ?>"> 
-                          <?php echo $row['userID']; ?>: 
-                          <?php echo $row['firstName']; ?> 
-                          <?php echo $row['lastName']; ?>  
-                        <?php } ?>
-                    </option>
-                </select> 
-        </td>
-        <td>
-        <select name="gender" >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-        </td>
-        <td>
-        <select name="gender" >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select> 
-        </td>
-        <td>
-        <input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required>
-        </td>
-        <td><input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ></td>
-	</tr>
-	</tbody>
-</table>
-            
-           
-</div> <!-- END bookNow -->
-        
-
-    <span id="bookingError" >
-        <b style="color:red;">
-            <?php 
-            if (isset($_SESSION['message'])){
-                    echo $_SESSION['message'];
-                    $_SESSION['message'] == "hi";
-            }
-            ?> </b>
-        </span>
-
-    <script>
-
-var date = document.querySelector('[type=date]');
-function yesMondays(e){
-
-    //Dont allow user to book a previous date
-    //http://stackoverflow.com/questions/17182544/disable-certain-dates-from-html5-datepicker
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("courseStart")[0].setAttribute('min', today);
+<style>
+   
+    
+</style>
+<hr>
+<div id="adminTitle">
+    <hr>             
+    <a href="admin.php"> Course Bookings </a> |
+    <b><a href="adminMessages.php"> Messages </a></b> |
+    <a href="adminServers.php"> Server Bookings </a> 
+    <br><?php while($row = mysqli_fetch_array($loginpage)) { 
+	echo "Messages from: ";   
+    echo strtoUpper($row['firstName']); 
+        } ?>
+    <hr> 
+    
+</div> 
+    
+    
 
 
-    var day = new Date( e.target.value ).getUTCDay();
-    // Days in JS range from 0-6 where 0 is Sunday and 6 is Saturday
-    if( day != 1 ){
-        e.target.setCustomValidity('Bookings only start on Mondays!');
-    } else {
-        e.target.setCustomValidity('');
-    }
-}
-date.addEventListener('input',yesMondays);
-
-        </script>
-				</form>
-    </div> <!-- end bookingDiv -->
-
-<hr> 	
-<h3 class="title">Course Bookings</h3>	<br> <br>
 
 <div id="myBookings">
 
@@ -220,24 +147,22 @@ date.addEventListener('input',yesMondays);
     <table>
 	<thead>
 	<tr>
-        <th>Booking ID</th>
+        <th>Message ID</th>
         <th>User ID </th>
-        <th>Date Booked</th>
-		<th>Course Start</th>
-        <th>Course Type</th>
-        <th>Gender</th>
+        <th>Message Date Booked</th>
+		<th>Message</th>
+        <th>Responded</th>
 	</tr>
 	</thead>
 	<tbody>
         <?php
     while($row = mysqli_fetch_array($bookingpage)) { ?>
 	<tr>
-        <td><?php echo strtoUpper($row['bookingID']) ?></td>
+        <td><?php echo strtoUpper($row['messageID']) ?></td>
         <td><?php echo strtoUpper($row['userID']) ?></td>
-        <td><?php echo strtoUpper($row['date']) ?></td>
-        <td><?php echo strtoUpper($row['courseStart']) ?> </td>
-        <td><?php echo strtoUpper($row['courseType']) ?> </td>
-        <td><?php echo strtoUpper($row['gender']) ?></td>
+        <td><?php echo strtoUpper($row['messageDate']) ?></td>
+        <td><?php echo strtoUpper($row['message']) ?> </td>
+        <td><?php echo strtoUpper($row['responded']) ?> </td>
         <?php }  ?>
 
 	</tr>
@@ -248,19 +173,7 @@ date.addEventListener('input',yesMondays);
 
     </div> <!-- end myBookings -->
 <br><br>
-    <!-- START deleteBooking ***** Need at add feature for booking to only be deleted if course is 10+ days away!!!! ***** -->
-             <form action="process/adminDeleteBooking.php" method="post" id="deleteBooking"
-                   onSubmit="if(!confirm('Do you really want to cancel your booking?')){return false;}">
-        <p> Wish to Cancel a booking? Select booking ID below and press delete:</p> <br>
-		<div class="select-div">
-        <select name="deleteBooking">
-            <option selected="true" disabled>Select Booking ID</option>
-            <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
-            <option> <?php echo strtoUpper($row['bookingID']); } ?></option>
-    </select> </div> <br> <br>
-        <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
-        </form >
-    <!-- END deleteBooking -->
+   
 
 
 <br><br><br>
@@ -277,69 +190,7 @@ date.addEventListener('input',yesMondays);
 -------------------------------------------------------------------
 -------------------------------------------------------------------->
             
-            
-            
-            
-            
-				
-	<!--contact-->
-	<div class="contact" id="contact">
-		<div class="map">
-			<iframe>allowfullscreen</iframe>
-			<div class="map-color">
-			</div>
-		</div>
-		<div class="contact-grids">
-			
-			<div class="col-md-5 contact-grid">
-				<form>
-					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
-					<input type="submit" value="Submit" >
-				</form>
-			</div>
-			<div class="col-md-3 contact-grid">
-				<div class="call">
-					<div class="col-xs-2 contact-grdl">
-						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-					</div>
-					<div class="col-xs-10 contact-grdr">
-						<ul>
-							<li>(07) 3138 2000</li>
-							
-						</ul>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="address">
-					<div class="col-xs-2 contact-grdl">
-						<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-					</div>
-					<div class="col-xs-10 contact-grdr">
-						<ul>
-							<li>2 George St,</li>
-							<li>Brisbane City QLD 4000</li>
-						</ul>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="mail">
-					<div class="col-xs-2 contact-grdl">
-						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-					</div>
-					<div class="col-xs-10 contact-grdr">
-						<ul>
-							<li>InstinctMeditation@outlook.com</li>
-						</ul>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
-	</div>
-	<!--//contact-->
+   
 	<!--footer-->
 	<div class="footer">
 		<div class="footer-info">
