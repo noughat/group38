@@ -11,15 +11,15 @@ $userinfo = "SELECT * FROM users";
 $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
 
 // Selecting User Bookings for making a booking:
-$userBookinginfo = "SELECT * FROM bookings WHERE userID = '$_SESSION[userID]'";
+$userBookinginfo = "SELECT * FROM serverBookings WHERE userID = '$_SESSION[userID]'";
 $bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
     
 // Selecting User Bookings for deletion:
-$userBookinginfo2 = "SELECT * FROM bookings WHERE userID = '$_SESSION[userID]'";
+$userBookinginfo2 = "SELECT * FROM serverBookings WHERE userID = '$_SESSION[userID]'";
 $bookingpage2 = mysqli_query($con, $userBookinginfo2) or die(mysqli_error($con));     
     
 $check10Days = "SELECT * FROM bookings 
-WHERE now() <= courseStart ";  
+WHERE now() <= serverStart ";  
 }
 ?>
 <!--
@@ -101,8 +101,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!--Shortcodes-page -->
 	<div class="codes">
 		<div class="container">
-			<h3 class="title">Book Now</h3>
-            
+			<h3 class="title">Book as a Server</h3>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -112,7 +111,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div id="bookNow">
 
     <br>
-        <form class="cd-form" action="process/processBooking.php" method="post" id="classBooking">
+        <form class="cd-form" action="process/processServerBooking.php" method="post" id="classBooking">
 
         <p class="fieldset">
             <h3> Course Type:  </h3> <br>
@@ -132,7 +131,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
          <p class="fieldset">
                     Course Start:
 					<br>
-						<input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required> <br><br>
+						<input class="full-width has-padding has-border" id="serverStart" name="serverStart" type="date" min="2016-08-01" max="2100-01-02" required> <br><br>
 						<!-- <span class="cd-error-message">Error message here!</span> -->
 
     <p class="fieldset">
@@ -145,7 +144,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <?php if (isset($_SESSION['message'])){
         echo $_SESSION['message'];
         $_SESSION['message']= ""; } ?>  </b>
-    </span> 
+    </span>  
 
     <script>
 
@@ -155,7 +154,7 @@ function yesMondays(e){
     //Dont allow user to book a previous date
     //http://stackoverflow.com/questions/17182544/disable-certain-dates-from-html5-datepicker
     var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("courseStart")[0].setAttribute('min', today);
+    document.getElementsByName("serverStart")[0].setAttribute('min', today);
 
 
     var day = new Date( e.target.value ).getUTCDay();
@@ -172,10 +171,9 @@ date.addEventListener('input',yesMondays);
 				</form>
 
     </div> <!-- end bookingDiv -->
-        <b>  <a href="Serverbookings.php"> Want to be volunteet as a Server? Click Here! </a> </b>
 	<br> <hr> <br> <br>
 	
-<h3 class="title">My Bookings</h3>	<br> <br>
+<h3 class="title">My Server Bookings</h3>	<br> <br>
 
 <div id="myBookings">
     <!-- <?php /*
@@ -192,7 +190,7 @@ date.addEventListener('input',yesMondays);
     <table>
 	<thead>
 	<tr>
-        <th>Booking ID</th>
+        <th>Server Booking ID</th>
         <th>Date Booked</th>
 		<th>Course Start</th>
         <th>Course Type</th>
@@ -202,9 +200,9 @@ date.addEventListener('input',yesMondays);
         <?php
     while($row = mysqli_fetch_array($bookingpage)) { ?>
 	<tr>
-        <td><?php echo strtoUpper($row['bookingID']) ?></td>
+        <td><?php echo strtoUpper($row['serverBookingID']) ?></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
-        <td><?php echo strtoUpper($row['courseStart']) ?> </td>
+        <td><?php echo strtoUpper($row['serverStart']) ?> </td>
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
         <?php }  ?>
 
@@ -217,14 +215,14 @@ date.addEventListener('input',yesMondays);
     </div> <!-- end myBookings -->
 <br><br>
     <!-- START deleteBooking ***** Need at add feature for booking to only be deleted if course is 10+ days away!!!! ***** -->
-             <form action="process/deleteBooking.php" method="post" id="deleteBooking"
+             <form action="process/deleteServerBooking.php" method="post" id="deleteBooking"
                    onSubmit="if(!confirm('Do you really want to cancel your booking?')){return false;}">
         <p> Wish to Cancel a booking? Select booking ID below and press delete:</p> <br>
 		<div class="select-div">
         <select name="deleteBooking">
-            <option selected="true" disabled>Select Booking ID</option>
+            <option selected="true" disabled>Select Server Booking ID</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
-            <option> <?php echo strtoUpper($row['bookingID']); } ?></option>
+            <option> <?php echo strtoUpper($row['serverBookingID']); } ?></option>
     </select> </div> <br> 
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
@@ -253,11 +251,6 @@ date.addEventListener('input',yesMondays);
 ----------------------------------------------------------------
 -------------------------------------------------------------------
 -------------------------------------------------------------------->
-            
-            
-            
-            
-            
 				
 	<!--contact-->
 	<div class="contact" id="contact">
@@ -269,14 +262,17 @@ date.addEventListener('input',yesMondays);
 		<div class="contact-grids">
 			
 			<div class="col-md-5 contact-grid">
-				<form>
-					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+				<form action="process/processMessage.php" method="post" id="message">    
+<input type="text" value="<?php echo $_SESSION['firstName'];?> <?php echo $_SESSION['lastName'];?>" disabled >
+                    
+<input type="text" value="<?php echo $_SESSION['email'];?>" placeholder="<?php echo $_SESSION['email'];?>" disabled >
+                    
+        <textarea type="text" maxlength="500" name="message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" >Message...</textarea>
 					<input type="submit" value="Submit" >
 				</form>
 			</div>
-			<div class="col-md-3 contact-grid">
+			
+            <div class="col-md-3 contact-grid">
 				<div class="call">
 					<div class="col-xs-2 contact-grdl">
 						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>

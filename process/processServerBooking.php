@@ -3,10 +3,10 @@
 $userID = $_SESSION['userID'];
 $gender = $_SESSION['gender'];
 $courseType = mysqli_real_escape_string($con,$_POST['courseType']);
-$courseStart = mysqli_real_escape_string($con,$_POST['courseStart']);
+$serverStart = mysqli_real_escape_string($con,$_POST['serverStart']);
 
 //Check if session doesnt have max female/male limit
-$sql1 = "SELECT * FROM bookings WHERE courseStart = '$courseStart' AND gender = '$gender'";
+$sql1 = "SELECT * FROM serverBookings WHERE serverStart = '$serverStart' AND gender = '$gender'";
 $result1 = mysqli_query($con,$sql1);
 $num_rows1 = mysqli_num_rows($result1);
 
@@ -19,7 +19,7 @@ $num_rows1 = mysqli_num_rows($result1);
 
 
 //checking if user already has booking for particular date
-$sql3 = "SELECT * FROM bookings WHERE userID = '$userID' AND courseStart = '$courseStart'";
+$sql3 = "SELECT * FROM serverBookings WHERE userID = '$userID' AND serverStart = '$serverStart'";
 $result3 = mysqli_query($con,$sql3);
 $num_rows3 = mysqli_num_rows($result3);
 
@@ -40,12 +40,12 @@ if($error=="error")
     echo $_SESSION['message'],"<p>";
     echo "Gender: ",$gender,"<p>";
     echo "Num bookings for date: ",$num_rows1,"<p>";
-    header("Location:../bookings.php");
+    header("Location:../serverBookings.php");
 } else {
     
-   $sql= "INSERT INTO bookings(userID, date, courseType,courseStart, gender ) 
-         VALUES ('$userID',now(),'$courseType','$courseStart','$gender')";
-//$sql= "INSERT INTO users(fullname, email, ps4_user, x1_user, password, avatar) VALUES ('$fullname','$email','$ps4_user','$x1_user','$password','$avatar')";
+   $sql= "INSERT INTO serverBookings(userID, date, courseType,serverStart, gender ) 
+         VALUES ('$userID',now(),'$courseType','$serverStart','$gender')";
+
 
 mysqli_query($con, $sql) or die(mysqli_error($con));
 echo "Data inserted";
@@ -53,7 +53,7 @@ $_SESSION['message']="Your booking was successfull! <p>";
     echo "Current number of $gender's in class: ", $num_rows1,"<p>";
     echo "User ID: ",$num_rows3,"<p>";
     
-//header("Location:../bookings.php");	
+header("Location:../serverBookings.php");	
     
 } // END else 
 	
