@@ -102,6 +102,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="codes">
 		<div class="container">
 			<h3 class="title">Book as a Server</h3>
+                <div id="adminTitle">
+                    <hr><a href="bookings.php"> Book a Course! </a><hr>
+                </div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -112,30 +115,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <br>
         <form class="cd-form" action="process/processServerBooking.php" method="post" id="classBooking">
-
-        <p class="fieldset">
+        <div class="bookForm">
+            <div class="pos1-div"> 
             <h3> Course Type:  </h3> <br>
-            <h5> All Bookings start on Mondays!   </h5> <br>
-                <label class="image-replace cd-email" for="signup-gender">Course Type:</label>
-                <!-- <input class="full-width has-padding has-border" id="signup-lastName" name="dateOfBirth" placeholder="Gender" required> -->
 			<div class="select-div">	
-            <select class="full-width has-padding has-border" name="courseType" >
-                  <option class="full-width has-padding has-border"  value="3">3 Day Course</option>
-                  <option class="full-width has-padding has-border" value="10">10 Day Course</option>
-                  <option class="full-width has-padding has-border" value="30">30 Day Course</option>
-                </select> </div>
-                <!-- <span class="cd-error-message">Error message here!</span> -->
-        </p>
+            <select name="courseType" >
+                  <option value="3">3 Day Course</option>
+                  <option value="10">10 Day Course</option>
+                  <option value="30">30 Day Course</option>
+            </select> </div> 
+            </div>
     				</p>
-		<br>
-         <p class="fieldset">
-                    Course Start:
-					<br>
-						<input class="full-width has-padding has-border" id="serverStart" name="serverStart" type="date" min="2016-08-01" max="2100-01-02" required> <br><br>
-						<!-- <span class="cd-error-message">Error message here!</span> -->
-
-    <p class="fieldset">
-						<input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ><p>
+		
+            <div class="pos2-div">
+                <h3>Course Start: </h3> <br>
+						<input class="full-width has-padding has-border" id="serverStart" name="serverStart" type="date" min="2016-08-01" max="2100-01-02" required> 
+            </div>
+        
+             <div class="pos3-div">
+				<input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ><p>
+             </div>
+        </div>
                         
 					</p> <br><br>
 
@@ -171,21 +171,11 @@ date.addEventListener('input',yesMondays);
 				</form>
 
     </div> <!-- end bookingDiv -->
-	<br> <hr> <br> <br>
-	
+<div id="clearDiv" style="clear:both;"> </div>
+	<br> <br> 
 <h3 class="title">My Server Bookings</h3>	<br> <br>
 
 <div id="myBookings">
-    <!-- <?php /*
-    while($row = mysqli_fetch_array($bookingpage)) { ?>
-        Booking Made on: <?php echo strtoUpper($row['date']) ?> <br>
-        Course Start Date: <?php echo strtoUpper($row['courseStart']) ?><br>
-        Course End Date: <?php echo strtoUpper($row['courseEnd']) ?> <br>
-        Course Type: <?php echo strtoUpper($row['courseType']) ?> <br>
-        <?php } */ ?>
-        -------------------------------------------------
-    </select>
-    -->
 	<div class="tablepos">
     <table>
 	<thead>
@@ -223,29 +213,14 @@ date.addEventListener('input',yesMondays);
             <option selected="true" disabled>Select Server Booking ID</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
             <option> <?php echo strtoUpper($row['serverBookingID']); } ?></option>
-    </select> </div> <br> 
+    </select> </div> <br> <br>
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
     <!-- END deleteBooking -->
 
-
-    <!-- <select name="session_username" required >
-        <option disabled>Select a User</option>
-        < ?php
-        while($row = mysqli_fetch_array($sessionUsername)) { ?>
-        <option> < ?php echo strtoUpper($row['ps4_user']) ?></option>
-        <option> < ?php echo strtoUpper($row['x1_user']) ?></option>
-        < ?php } ?>
-    </select> -->
-
 <br><br><br>
 </div> <!-- END container -->
 </div>
-
-
-
-
-
 
 <!--------------------------------------------------------------
 ----------------------------------------------------------------

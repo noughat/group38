@@ -20,7 +20,7 @@ $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
     
 
 // Selecting messages Bookings for viewing:
-$userBookinginfo = "SELECT * FROM messages";
+$userBookinginfo = "SELECT * FROM messages ORDER BY messageDate DESC";
 $bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
     
 // Selecting User Bookings for deletion:

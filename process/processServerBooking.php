@@ -23,9 +23,7 @@ $sql3 = "SELECT * FROM serverBookings WHERE userID = '$userID' AND serverStart =
 $result3 = mysqli_query($con,$sql3);
 $num_rows3 = mysqli_num_rows($result3);
 
-
-
-
+/*
 $error="";
 //Check if 26 males
 if($num_rows1>26 || $num_rows3==1)
@@ -41,7 +39,13 @@ if($error=="error")
     echo "Gender: ",$gender,"<p>";
     echo "Num bookings for date: ",$num_rows1,"<p>";
     header("Location:../serverBookings.php");
-} else {
+} */
+
+if($_SESSION['canBeServer'] == 0) {
+  $_SESSION['message'] = "You require to complete a 10 day course in order to volunteer!";
+    echo $_SESION['message'];
+    header("Location:../serverBookings.php");
+} else if($_SESSION['canBeServer'] == 1) {
     
    $sql= "INSERT INTO serverBookings(userID, date, courseType,serverStart, gender ) 
          VALUES ('$userID',now(),'$courseType','$serverStart','$gender')";

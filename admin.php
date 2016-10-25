@@ -117,7 +117,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <a href="adminMessages.php"> Messages </a> |
     <a href="adminServers.php"> Server Bookings </a>
     <hr> 	
-</div>
+            </div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -159,9 +159,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </select>
         </td>
         <td>
-        <select name="gender" >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+        <select name="courseType" >
+            <option value="3">3</option>
+            <option value="10">10</option>
+            <option value="30">30</option>
         </select> 
         </td>
         <td>

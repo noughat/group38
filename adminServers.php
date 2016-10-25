@@ -165,9 +165,6 @@ date.addEventListener('input',yesMondays);
 				</form>
     </div> <!-- end bookingDiv -->
 
-
-
-
 <div id="myBookings">
 
 	<div class="tablepos">
@@ -187,7 +184,7 @@ date.addEventListener('input',yesMondays);
     while($row = mysqli_fetch_array($bookingpage)) { ?>
 	<tr>
         <td><?php echo strtoUpper($row['serverBookingID']) ?></td>
-        <td><?php echo strtoUpper($row['userID']) ?></td>
+        <td><a href="adminUserDetails.php?userID=<?php echo $row['userID']?>"> <?php echo strtoUpper($row['userID']) ?></a></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
         <td><?php echo strtoUpper($row['serverStart']) ?> </td>
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
@@ -211,7 +208,7 @@ date.addEventListener('input',yesMondays);
             <option selected="true" disabled>Select Booking ID</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
             <option> <?php echo strtoUpper($row['serverBookingID']); } ?></option>
-    </select> </div> <br> 
+    </select> </div> <br> <br>
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
     <!-- END deleteBooking -->
@@ -309,14 +306,6 @@ date.addEventListener('input',yesMondays);
 	<!--smooth-scrolling-of-move-up-->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			/*
-			var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-			};
-			*/
 			
 			$().UItoTop({ easingType: 'easeOutQuart' });
 			

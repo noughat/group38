@@ -132,6 +132,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <br><?php while($row = mysqli_fetch_array($loginpage)) { 
 	echo "Messages from: ";   
     echo strtoUpper($row['firstName']); 
+    echo "<br>Email: ";
+    echo strtoUpper($row['email']); 
         } ?>
     <hr> 
     

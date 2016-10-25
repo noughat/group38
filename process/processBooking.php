@@ -2,6 +2,7 @@
   include "../serverConnection.php";
 $userID = $_SESSION['userID'];
 $gender = $_SESSION['gender'];
+$canBeServer = $_SESSION['canBeServer'];
 $courseType = mysqli_real_escape_string($con,$_POST['courseType']);
 $courseStart = mysqli_real_escape_string($con,$_POST['courseStart']);
 
@@ -27,10 +28,28 @@ $num_rows3 = mysqli_num_rows($result3);
 
 
 $error="";
-//Check if 26 males
-if($num_rows1>26 || $num_rows3==1)
+
+//Check is user has made booking
+if($num_rows3 == 1)
 {
-$_SESSION['message']="Maximum number $gender's reached for this date reached or you have already booked this session.";
+$_SESSION['message']="You have already booked this session.";
+$error="error";
+}
+
+//Check if 26 males
+if($num_rows1 > 26)
+{
+$_SESSION['message']="Maximum number $gender's reached for this date.";
+$error="error";
+}
+
+
+
+
+//Check if user can be a server
+if(($courseType == 3 || $courseType == 30)   && $canBeServer == 0)
+{
+$_SESSION['message']="The 10 day course must be completed first in order to book a 3 or 30 day course, or if you wish to be a server!";
 $error="error";
 }
 
@@ -45,15 +64,18 @@ if($error=="error")
     
    $sql= "INSERT INTO bookings(userID, date, courseType,courseStart, gender ) 
          VALUES ('$userID',now(),'$courseType','$courseStart','$gender')";
-//$sql= "INSERT INTO users(fullname, email, ps4_user, x1_user, password, avatar) VALUES ('$fullname','$email','$ps4_user','$x1_user','$password','$avatar')";
-
+           
+   $sql1 = "UPDATE users SET canBeServer = 1 WHERE userID = $userID";
+    
+    
 mysqli_query($con, $sql) or die(mysqli_error($con));
-echo "Data inserted";
+mysqli_query($con, $sql1) or die(mysqli_error($con));
+echo "Data inserted<p>";
 $_SESSION['message']="Your booking was successfull! <p>";
     echo "Current number of $gender's in class: ", $num_rows1,"<p>";
     echo "User ID: ",$num_rows3,"<p>";
     
-//header("Location:../bookings.php");	
+header("Location:../bookings.php");	
     
 } // END else 
 	

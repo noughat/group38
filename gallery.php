@@ -177,6 +177,37 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 	</div>	
 	<!--//gallery-->
+
+<!-- map -->
+
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+
+  <body>
+    <h3>Find Us:</h3>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var uluru = {lat: -27.4756124, lng: 153.0258597};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3tuvhDz2VZEqFFruqcaAoc9nzZpb44uY&callback=initMap">
+    </script>
+
+<!-- //map -->
 	<!--contact-->
 	<div class="contact" id="contact">
 		<div class="map">
@@ -187,14 +218,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="contact-grids">
 			
 			<div class="col-md-5 contact-grid">
-				<form>
-					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+				<form action="process/processMessage.php" method="post" id="message">    
+<input type="text" value="<?php echo $_SESSION['firstName'];?> <?php echo $_SESSION['lastName'];?>" disabled >
+                    
+<input type="text" value="<?php echo $_SESSION['email'];?>" placeholder="<?php echo $_SESSION['email'];?>" disabled >
+                    
+        <textarea type="text" maxlength="500" name="message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" >Message...</textarea>
 					<input type="submit" value="Submit" >
 				</form>
 			</div>
-			<div class="col-md-3 contact-grid">
+			
+            <div class="col-md-3 contact-grid">
 				<div class="call">
 					<div class="col-xs-2 contact-grdl">
 						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>

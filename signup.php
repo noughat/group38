@@ -324,11 +324,9 @@ label {
 		<form id="signup" action="process/processRegister.php" method="post">
 				<input type="text" placeholder="First Name" name="firstName" required /><br>
 				<input type="text" placeholder="Last Name" name="lastName" required /><br>
-				<input type="text" placeholder="E-mail" name="email" required /><br>
-                <input type="password" placeholder="Password*" name="password" required /><br>
+				<input type="email" placeholder="E-mail" name="email" required /><br>
+                <input type="password" placeholder="Password*" name="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required /><br>
             <label style="font-size:12px; width: 70%; border:2px">
-                
-            <!-- pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" -->
 <i>*Password requires min 1 upper case letter, min 1 lower case letter, min 1 number OR special character, and min 8 characters in length!</i><br>
             </label>
 
@@ -346,32 +344,6 @@ label {
 				&nbsp;<input id="female" type="radio" name="gender" value="female"><label for="female"><span><span></span></span>Female</label>
 				</div>
 				</div> <!-- end EXAMPLE -->
-        
-            
-                <!--<input type='file' id="avatar" name="avatar" placeholder="Upload Avatar" />
-                <img id="imagePreview" src="#" alt="Image Preview" />
-                <script>
-                    function readURL(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();    
-                            reader.onload = function (e) {
-                                $('#imagePreview').attr('src', e.target.result);
-                                }
-                            reader.readAsDataURL(input.files[0]);
-                            }
-                    }
-                    
-                $("#avatar").change(function(){
-                    readURL(this);
-                });
-
-                </script> -->
-                
-                <!-- <input id="avatar" name="avatar" type="file" placeholder="Upload Avatar"/>
-                <!-- <label for="signup-avatar">Avatar<img src="< ?php echo file_dir . '/' . $imageone; ?>" id="imagePreview" alt="Image Preview"/></label> -->
-            
-            
-            
 				
 				<input type="submit" value="Sign Up" name="signup">
 		</form>

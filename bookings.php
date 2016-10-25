@@ -102,7 +102,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="codes">
 		<div class="container">
 			<h3 class="title">Book Now</h3>
-            
+                <div id="adminTitle">
+                    <hr><a href="Serverbookings.php"> Become a Volunteer! </a><hr>
+                </div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -114,31 +116,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <br>
         <form class="cd-form" action="process/processBooking.php" method="post" id="classBooking">
 
-        <p class="fieldset">
-            <h3> Course Type:  </h3> <br>
-            <h5> All Bookings start on Mondays!   </h5> <br>
-                <label class="image-replace cd-email" for="signup-gender">Course Type:</label>
-                <!-- <input class="full-width has-padding has-border" id="signup-lastName" name="dateOfBirth" placeholder="Gender" required> -->
-			<div class="select-div">	
-            <select class="full-width has-padding has-border" name="courseType" >
+        <div class="bookForm">
+                <div class="pos1-div"> 
+                    <h3>Course Type: </h3>  <br>
+			<div class="select-divv">	
+            <select class="courseType" name="courseType">
                   <option class="full-width has-padding has-border"  value="3">3 Day Course</option>
-                  <option class="full-width has-padding has-border" value="10">10 Day Course</option>
-                  <option class="full-width has-padding has-border" value="30">30 Day Course</option>
-                </select> </div>
-                <!-- <span class="cd-error-message">Error message here!</span> -->
-        </p>
-    				</p>
-		<br>
-         <p class="fieldset">
-                    Course Start:
-					<br>
+                  <option class="full-width has-padding has-border" value="10" >10 Day Course&nbsp;</option>
+                  <option class="full-width has-padding has-border" value="30">30 Day Course&nbsp;</option>
+                </select> 
+            </div>
+            </div> <!-- END pos1 -->
+        
+		 <div class="pos2-div">
+                <h3> Course Start: </h3> <br>
 						<input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required> <br><br>
 						<!-- <span class="cd-error-message">Error message here!</span> -->
+        </div> <!-- END pos2-div -->
 
-    <p class="fieldset">
-						<input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ><p>
-                        
-					</p> <br><br>
+    <p class="fieldset"> <div class="pos3-div">
+						<input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now"><p>
+        </div> <!-- END pos3-div -->
+            <div id="clearDiv" style="clear:both;"> </div>
+            </div> <!-- END bookForm -->
+                </p>
 
      <span id="bookingError" >
         <b style="color:red;">
@@ -170,10 +171,9 @@ date.addEventListener('input',yesMondays);
 
         </script>
 				</form>
-
     </div> <!-- end bookingDiv -->
-        <b>  <a href="Serverbookings.php"> Want to be volunteet as a Server? Click Here! </a> </b>
-	<br> <hr> <br> <br>
+<div id="clearDiv" style="clear:both;"> </div>
+         <br> 
 	
 <h3 class="title">My Bookings</h3>	<br> <br>
 
@@ -222,42 +222,22 @@ date.addEventListener('input',yesMondays);
         <p> Wish to Cancel a booking? Select booking ID below and press delete:</p> <br>
 		<div class="select-div">
         <select name="deleteBooking">
-            <option selected="true" disabled>Select Booking ID</option>
+            <option selected="true" disabled>Select Booking:&nbsp;</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
             <option> <?php echo strtoUpper($row['bookingID']); } ?></option>
-    </select> </div> <br> 
+    </select> </div> <br> <br>
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
     <!-- END deleteBooking -->
-
-
-    <!-- <select name="session_username" required >
-        <option disabled>Select a User</option>
-        < ?php
-        while($row = mysqli_fetch_array($sessionUsername)) { ?>
-        <option> < ?php echo strtoUpper($row['ps4_user']) ?></option>
-        <option> < ?php echo strtoUpper($row['x1_user']) ?></option>
-        < ?php } ?>
-    </select> -->
 
 <br><br><br>
 </div> <!-- END container -->
 </div>
 
-
-
-
-
-
 <!--------------------------------------------------------------
 ----------------------------------------------------------------
 -------------------------------------------------------------------
--------------------------------------------------------------------->
-            
-            
-            
-            
-            
+-------------------------------------------------------------------->            
 				
 	<!--contact-->
 	<div class="contact" id="contact">
@@ -269,14 +249,17 @@ date.addEventListener('input',yesMondays);
 		<div class="contact-grids">
 			
 			<div class="col-md-5 contact-grid">
-				<form>
-					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+				<form action="process/processMessage.php" method="post" id="message">    
+<input type="text" value="<?php echo $_SESSION['firstName'];?> <?php echo $_SESSION['lastName'];?>" disabled >
+                    
+<input type="text" value="<?php echo $_SESSION['email'];?>" placeholder="<?php echo $_SESSION['email'];?>" disabled >
+                    
+        <textarea type="text" maxlength="500" name="message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" >Message...</textarea>
 					<input type="submit" value="Submit" >
 				</form>
 			</div>
-			<div class="col-md-3 contact-grid">
+			
+            <div class="col-md-3 contact-grid">
 				<div class="call">
 					<div class="col-xs-2 contact-grdl">
 						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
