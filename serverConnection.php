@@ -10,7 +10,7 @@ session_start();
 //$con = mysqli_connect("	server36.000webhost.com", "a3632939", "cross85246", "a3632939_mediDB");
 
 //localhost
-$con = mysqli_connect("localhost","root","","meditation"); //Connect to database
+$con = mysqli_connect("localhost", "root", "", "meditation"); //Connect to database
 
 
 if (mysqli_connect_errno($con)) //check for errors

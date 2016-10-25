@@ -4,8 +4,6 @@ include "serverConnection.php";
 	
 if (!(isset($_SESSION['login']))){
 
-header ("Location:login.php");
-
 } 
 if(isset($_SESSION['iAmLogged'] )){
        if($_SESSION['admin'] == 1) {
@@ -18,9 +16,7 @@ if(isset($_SESSION['iAmLogged'] )){
 $userinfo = "SELECT * FROM users";
 $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
 
-}
-
-
+} 
 
 ?>
 

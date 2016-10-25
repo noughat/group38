@@ -25,7 +25,6 @@
         $_SESSION['email'] = $row['email'];
 		$_SESSION['avatar'] = $row['avatar'];
         $_SESSION['admin'] = $row['admin_privileges'];
-        $_SESSION['canBeServer'] = $row['canBeServer'];;
 		$_SESSION['iAmLogged'] = "iAmLogged";
         
         echo $_SESSION['userID'];

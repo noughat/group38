@@ -124,11 +124,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <td id="columnR"><?php echo $_SESSION['homeAddress']; ?> </td>
         <tr><th>Email:</th>
             <td id="columnR"><?php echo $_SESSION['email']; ?> </td>
-         <tr><th>Can Be Server:</th>
-            <td id="columnR"> <?php echo $_SESSION['canBeServer'] ?> 
-             <br> <em>You cannot be a server if above number is a 0.</em> </td>
-             
-            
     </thead>
                         <tr>
                         <td>

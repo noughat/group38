@@ -111,38 +111,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="codes">
 		<div class="container">
 			<h3 class="title">Admin</h3>
-<div id="adminTitle">
-    <hr> 	
-    <b><a href="admin.php"> Course Bookings </a></b> |
-    <a href="adminMessages.php"> Messages </a> |
-    <a href="adminServers.php"> Server Bookings </a>
-    <hr> 	
-</div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 ------------------------------------------------------------------------------->
-
-            
 <div id="container">
     <div id="bookNow">
+
     <br>
-        <form action="process/adminBooking.php" method="post" id="classBooking">        
-<table class="adminBooking">
-	<thead>
-	<tr>
-        <th>User ID</th>
-        <th>Gender ID </th>
-        <th>Course Type</th>
-		<th>Course Start</th>
-        <th>Confirm</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-        <td>
-        <select name="userID" >
+        <form action="process/adminBooking.php" method="post" id="classBooking">    
+            <label>User ID / Name</label>
+			<div class="select-div">	
+                <select name="userID" >
                     <?php while($row = mysqli_fetch_array($loginpage)) { ?>
                     <option value="<?php $row['userID']; ?>"> 
                           <?php echo $row['userID']; ?>: 
@@ -150,31 +131,40 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                           <?php echo $row['lastName']; ?>  
                         <?php } ?>
                     </option>
-                </select> 
-        </td>
-        <td>
-        <select name="gender" >
+                    
+                    </select> 
+            </div><br>
+            
+            <label>Gender:</label>
+			<div class="select-div">	
+                <select name="gender" >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                </select>
-        </td>
-        <td>
-        <select name="gender" >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select> 
-        </td>
-        <td>
-        <input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required>
-        </td>
-        <td><input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ></td>
-	</tr>
-	</tbody>
-</table>
-            
-           
-</div> <!-- END bookNow -->
-        
+                </select> 
+            </div><br>
+
+
+        <p class="fieldset">
+                <label>Course Type:</label>
+			<div class="select-div">	
+            <select name="courseType" >
+                  <option class="full-width has-padding has-border"  value="3">3 Day Course</option>
+                  <option class="full-width has-padding has-border" value="10">10 Day Course</option>
+                  <option class="full-width has-padding has-border" value="30">30 Day Course</option>
+                </select> </div>
+        </p>
+    				</p>
+		<br>
+         <p class="fieldset">
+                    <label>Course Start:</label>
+					<br>
+                    <h5> All Bookings start on Mondays!</h5>
+						<input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required> <br><br>
+
+    <p class="fieldset">
+						<input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ><p>
+                        
+					</p> <br><br>
 
     <span id="bookingError" >
         <b style="color:red;">
@@ -212,7 +202,7 @@ date.addEventListener('input',yesMondays);
     </div> <!-- end bookingDiv -->
 
 <hr> 	
-<h3 class="title">Course Bookings</h3>	<br> <br>
+<h3 class="title">All Bookings</h3>	<br> <br>
 
 <div id="myBookings">
 
@@ -224,6 +214,7 @@ date.addEventListener('input',yesMondays);
         <th>User ID </th>
         <th>Date Booked</th>
 		<th>Course Start</th>
+        <!-- <th>Course End </th> -->
         <th>Course Type</th>
         <th>Gender</th>
 	</tr>
@@ -236,6 +227,7 @@ date.addEventListener('input',yesMondays);
         <td><?php echo strtoUpper($row['userID']) ?></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
         <td><?php echo strtoUpper($row['courseStart']) ?> </td>
+        <!--  <td>< ?php echo strtoUpper($row['courseEnd']) ?> </td> -->
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
         <td><?php echo strtoUpper($row['gender']) ?></td>
         <?php }  ?>
@@ -257,7 +249,7 @@ date.addEventListener('input',yesMondays);
             <option selected="true" disabled>Select Booking ID</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
             <option> <?php echo strtoUpper($row['bookingID']); } ?></option>
-    </select> </div> <br> <br>
+    </select> </div> <br> 
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
     <!-- END deleteBooking -->

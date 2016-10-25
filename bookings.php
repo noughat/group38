@@ -85,7 +85,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<ul class="nav navbar-nav navbar-center">
 								<li><a href="loggedin.php"><span>H</span><span>O</span><span>M</span><span>E</span></a></li>
 								<li><a href="profile.php" class="link link--yaku"><span>P</span><span>R</span><span>O</span><span>F</span><span>I</span><span>L</span><span>E</span></a></li>
-								<li class="active"><a href="bookings.php" class="link link--yaku"><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>
+								<li class="active"><a href="codes.php" class="link link--yaku"><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>
 								<li><a href="gallery.php" class="link link--yaku"><span>G</span><span>A</span><span>L</span><span>L</span><span>E</span><span>R</span><span>Y</span></a></li></a></li>
 								<li><a href="#contact" class="scroll link link--yaku"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span> <span>U</span><span>S</span></a></li>
 								<li><a href="process/logout.php" class="link link--yaku"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span>L</span><span>O</span><span>G</span><span>O</span><span>U</span><span>T</span></a></li>
@@ -102,7 +102,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="codes">
 		<div class="container">
 			<h3 class="title">Book Now</h3>
-            
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -141,10 +140,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</p> <br><br>
 
      <span id="bookingError" >
-        <b style="color:red;">
-            <?php if (isset($_SESSION['message'])){
-        echo $_SESSION['message'];
-        $_SESSION['message']= ""; } ?>  </b>
+        <b style="color:red;"><?php echo $_SESSION['message'];
+        $_SESSION['message']= ""; ?></b>
     </span> 
 
     <script>
@@ -172,7 +169,6 @@ date.addEventListener('input',yesMondays);
 				</form>
 
     </div> <!-- end bookingDiv -->
-        <b>  <a href="Serverbookings.php"> Want to be volunteet as a Server? Click Here! </a> </b>
 	<br> <hr> <br> <br>
 	
 <h3 class="title">My Bookings</h3>	<br> <br>
@@ -195,6 +191,7 @@ date.addEventListener('input',yesMondays);
         <th>Booking ID</th>
         <th>Date Booked</th>
 		<th>Course Start</th>
+        <th> Course End </th>
         <th>Course Type</th>
 	</tr>
 	</thead>
@@ -205,6 +202,7 @@ date.addEventListener('input',yesMondays);
         <td><?php echo strtoUpper($row['bookingID']) ?></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
         <td><?php echo strtoUpper($row['courseStart']) ?> </td>
+        <td><?php echo strtoUpper($row['courseEnd']) ?> </td>
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
         <?php }  ?>
 
