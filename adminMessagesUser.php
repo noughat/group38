@@ -1,23 +1,37 @@
 <?php
 include "serverConnection.php";
+
+ $messageUserID = $_GET['messageUserID'];
+
 if (!(isset($_SESSION['login']))){
 header ("Location:login.php");
-} 
-if(isset($_SESSION['iAmLogged'] )){
+} else if(isset($_SESSION['iAmLogged'] )){
+    
     
     if($_SESSION['admin'] == 1) {
-        $navText = "<li><a href='admin.php' class='link link--yaku'><span>A</span><span>D</span><span>M</span><span>I</span><span>N</span></a></li>";
+        $navText = "<li class='active'><a href='admin.php' class='link link--yaku'><span>A</span><span>D</span><span>M</span><span>I</span><span>N</span></a></li>";
     } else if($_SESSION['iAmLogged'] == 0) {
-        $navText = "<li><a href='bookings.php' class='link link--yaku'><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>"; 
+        $navText = "<li><a href='bookings.php' class='link link--yaku'><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>";
     }
-	
+        
+$error="";
+    
 // Selecting Users:
-$userinfo = "SELECT * FROM users";
+$userinfo = "SELECT * FROM users where userID = $messageUserID";
 $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
     
-    
 
-}
+// Selecting messages Bookings for viewing:
+$userBookinginfo = "SELECT * FROM messages where userID = $messageUserID";
+$bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
+    
+// Selecting User Bookings for deletion:
+$userBookinginfo2 = "SELECT * FROM bookings";
+$bookingpage2 = mysqli_query($con, $userBookinginfo2) or die(mysqli_error($con));     
+    
+$check10Days = "SELECT * FROM bookings 
+WHERE now() <= courseStart ";  
+} 
 ?>
 <!--
 Author: W3layouts
@@ -39,7 +53,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!-- Custom Theme files -->
 <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
 <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-<link href="css/styletableProfile.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/styletable.css" type="text/css" rel="stylesheet" media="all">
 <!-- //Custom Theme files -->
 <!-- js -->
 <script src="js/jquery-1.11.1.min.js"></script> 
@@ -81,8 +95,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav navbar-center">
 								<li><a href="loggedin.php"><span>H</span><span>O</span><span>M</span><span>E</span></a></li>
-								<li class="active"><a href="profile.php" class="link link--yaku"><span>P</span><span>R</span><span>O</span><span>F</span><span>I</span><span>L</span><span>E</span></a></li>
-								<?php echo $navText; ?>
+								<li><a href="profile.php" class="link link--yaku"><span>P</span><span>R</span><span>O</span><span>F</span><span>I</span><span>L</span><span>E</span></a></li>
+								<!-- BOOKING HERE --><?php echo $navText; ?>
 								<li><a href="gallery.php" class="link link--yaku"><span>G</span><span>A</span><span>L</span><span>L</span><span>E</span><span>R</span><span>Y</span></a></li></a></li>
 								<li><a href="#contact" class="scroll link link--yaku"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span> <span>U</span><span>S</span></a></li>
 								<li><a href="process/logout.php" class="link link--yaku"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span>L</span><span>O</span><span>G</span><span>O</span><span>U</span><span>T</span></a></li>
@@ -95,56 +109,90 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 	</div>
 	<!--//banner-->
-	<!-- about-->
-	<!--about-top-->
-	<div class="about">
-		<!-- container -->
+	<!--Shortcodes-page -->
+	<div class="codes">
 		<div class="container">
-			<h2 class="title">Profile</h2>
-			<div class="about-info">
-				<div class="col-md-4 about-top-grid">
-					<img src="images/img4.jpg" alt="" />
-                    <!-- <img src="avatar/< ?php echo $_SESSION['avatar'];?>" alt="" /> -->
-				</div>
-				<div class="col-md-8 about-top-grid about-grid-right">
-					<table>
-<caption></caption>
-    <thead>
-        <tr><th>First Name:</th>
-            <td id="columnR"><?php echo $_SESSION['firstName']; ?> </td>
-        <tr><th>Last Name:</th>
-            <td id="columnR"><?php echo $_SESSION['lastName']; ?> </td>
-        <tr><th>D.O.B</th>
-            <td id="columnR"><?php echo $_SESSION['dateOfBirth']; ?> </td>
-        <tr><th>Gender</th>
-            <td id="columnR"><?php echo $_SESSION['gender']; ?> </td>
-        <tr><th>Mobile</th>
-            <td id="columnR"><?php echo $_SESSION['mobile']; ?> </td>
-        <tr><th>Home Address</th>
-            <td id="columnR"><?php echo $_SESSION['homeAddress']; ?> </td>
-        <tr><th>Email:</th>
-            <td id="columnR"><?php echo $_SESSION['email']; ?> </td>
-         <tr><th>Can Be Server:</th>
-            <td id="columnR"> <?php echo $_SESSION['canBeServer'] ?> 
-             <br> <em>You cannot be a server if above number is a 0.</em> </td>
-             
+			<h3 class="title">Admin</h3>
             
-    </thead>
-                        <tr>
-                        <td>
-                        <div id="editP"><a href="editProfile.php"><br> EDIT PROFILE </a></div>
-                        </td>
-                    </tr>
-</table>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-		<!--//container-->
-	</div>
-	<!--//about-top-->
+<!-- --------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+------------------------------------------------------------------------------->
+<div id="container">
+<style>
+   
+    
+</style>
+<hr>
+<div id="adminTitle">
+    <hr>             
+    <a href="admin.php"> Course Bookings </a> |
+    <b><a href="adminMessages.php"> Messages </a></b> |
+    <a href="adminServers.php"> Server Bookings </a> 
+    <br><?php while($row = mysqli_fetch_array($loginpage)) { 
+	echo "Messages from: ";   
+    echo strtoUpper($row['firstName']); 
+    echo "<br>Email: ";
+    echo strtoUpper($row['email']); 
+        } ?>
+    <hr> 
+    
+</div> 
+    
+    
 
-	-
+
+
+<div id="myBookings">
+
+	<div class="tablepos">
+    <table>
+	<thead>
+	<tr>
+        <th>Message ID</th>
+        <th>User ID </th>
+        <th>Message Date Booked</th>
+		<th>Message</th>
+        <th>Responded</th>
+	</tr>
+	</thead>
+	<tbody>
+        <?php
+    while($row = mysqli_fetch_array($bookingpage)) { ?>
+	<tr>
+        <td><?php echo strtoUpper($row['messageID']) ?></td>
+        <td><?php echo strtoUpper($row['userID']) ?></td>
+        <td><?php echo strtoUpper($row['messageDate']) ?></td>
+        <td><?php echo strtoUpper($row['message']) ?> </td>
+        <td><?php echo strtoUpper($row['responded']) ?> </td>
+        <?php }  ?>
+
+	</tr>
+
+	</tbody>
+</table>
+</div>
+
+    </div> <!-- end myBookings -->
+<br><br>
+   
+
+
+<br><br><br>
+</div> <!-- END container -->
+</div>
+
+
+
+
+
+
+<!--------------------------------------------------------------
+----------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------->
+            
+   
 	<!--footer-->
 	<div class="footer">
 		<div class="footer-info">

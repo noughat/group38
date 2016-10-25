@@ -1,23 +1,35 @@
 <?php
 include "serverConnection.php";
+$userID = $_GET['userID'];
 if (!(isset($_SESSION['login']))){
 header ("Location:login.php");
-} 
-if(isset($_SESSION['iAmLogged'] )){
+} else if(isset($_SESSION['iAmLogged'] )){
+    
     
     if($_SESSION['admin'] == 1) {
-        $navText = "<li><a href='admin.php' class='link link--yaku'><span>A</span><span>D</span><span>M</span><span>I</span><span>N</span></a></li>";
+        $navText = "<li class='active'><a href='admin.php' class='link link--yaku'><span>A</span><span>D</span><span>M</span><span>I</span><span>N</span></a></li>";
     } else if($_SESSION['iAmLogged'] == 0) {
-        $navText = "<li><a href='bookings.php' class='link link--yaku'><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>"; 
+        $navText = "<li><a href='bookings.php' class='link link--yaku'><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>";
     }
-	
+        
+$error="";
+    
 // Selecting Users:
-$userinfo = "SELECT * FROM users";
+$userinfo = "SELECT * FROM users WHERE userID = $userID";
 $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
     
-    
 
-}
+// Selecting User Bookings for making a booking:
+$userBookinginfo = "SELECT * FROM bookings";
+$bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
+    
+// Selecting User Bookings for deletion:
+$userBookinginfo2 = "SELECT * FROM bookings";
+$bookingpage2 = mysqli_query($con, $userBookinginfo2) or die(mysqli_error($con));     
+    
+$check10Days = "SELECT * FROM bookings 
+WHERE now() <= courseStart ";  
+} 
 ?>
 <!--
 Author: W3layouts
@@ -39,7 +51,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!-- Custom Theme files -->
 <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
 <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-<link href="css/styletableProfile.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/styletable.css" type="text/css" rel="stylesheet" media="all">
 <!-- //Custom Theme files -->
 <!-- js -->
 <script src="js/jquery-1.11.1.min.js"></script> 
@@ -81,8 +93,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav navbar-center">
 								<li><a href="loggedin.php"><span>H</span><span>O</span><span>M</span><span>E</span></a></li>
-								<li class="active"><a href="profile.php" class="link link--yaku"><span>P</span><span>R</span><span>O</span><span>F</span><span>I</span><span>L</span><span>E</span></a></li>
-								<?php echo $navText; ?>
+								<li><a href="profile.php" class="link link--yaku"><span>P</span><span>R</span><span>O</span><span>F</span><span>I</span><span>L</span><span>E</span></a></li>
+								<!-- BOOKING HERE --><?php echo $navText; ?>
 								<li><a href="gallery.php" class="link link--yaku"><span>G</span><span>A</span><span>L</span><span>L</span><span>E</span><span>R</span><span>Y</span></a></li></a></li>
 								<li><a href="#contact" class="scroll link link--yaku"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span> <span>U</span><span>S</span></a></li>
 								<li><a href="process/logout.php" class="link link--yaku"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span>L</span><span>O</span><span>G</span><span>O</span><span>U</span><span>T</span></a></li>
@@ -95,56 +107,153 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 	</div>
 	<!--//banner-->
-	<!-- about-->
-	<!--about-top-->
-	<div class="about">
-		<!-- container -->
+	<!--Shortcodes-page -->
+	<div class="codes">
 		<div class="container">
-			<h2 class="title">Profile</h2>
-			<div class="about-info">
-				<div class="col-md-4 about-top-grid">
-					<img src="images/img4.jpg" alt="" />
-                    <!-- <img src="avatar/< ?php echo $_SESSION['avatar'];?>" alt="" /> -->
-				</div>
-				<div class="col-md-8 about-top-grid about-grid-right">
-					<table>
-<caption></caption>
-    <thead>
-        <tr><th>First Name:</th>
-            <td id="columnR"><?php echo $_SESSION['firstName']; ?> </td>
-        <tr><th>Last Name:</th>
-            <td id="columnR"><?php echo $_SESSION['lastName']; ?> </td>
-        <tr><th>D.O.B</th>
-            <td id="columnR"><?php echo $_SESSION['dateOfBirth']; ?> </td>
-        <tr><th>Gender</th>
-            <td id="columnR"><?php echo $_SESSION['gender']; ?> </td>
-        <tr><th>Mobile</th>
-            <td id="columnR"><?php echo $_SESSION['mobile']; ?> </td>
-        <tr><th>Home Address</th>
-            <td id="columnR"><?php echo $_SESSION['homeAddress']; ?> </td>
-        <tr><th>Email:</th>
-            <td id="columnR"><?php echo $_SESSION['email']; ?> </td>
-         <tr><th>Can Be Server:</th>
-            <td id="columnR"> <?php echo $_SESSION['canBeServer'] ?> 
-             <br> <em>You cannot be a server if above number is a 0.</em> </td>
-             
+			<h3 class="title">Admin</h3>
+            <hr>
             
-    </thead>
-                        <tr>
-                        <td>
-                        <div id="editP"><a href="editProfile.php"><br> EDIT PROFILE </a></div>
-                        </td>
-                    </tr>
-</table>
-				</div>
-				<div class="clearfix"> </div>
+<!-- --------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+------------------------------------------------------------------------------->
+<style>
+    .tg {
+        margin: auto;
+    }            
+
+            </style>
+            
+<div id="container">
+    <table class="tg">
+        <?php while($row = mysqli_fetch_array($loginpage)) {  ?>
+  <tr>
+    <th class="userDeets">User ID</th>
+    <th class="userDeets"><?php echo $row['userID']?></th>
+  </tr>
+    <tr>
+    <th class="userDeets">First Name</th>
+    <th class="userDeets"><?php echo $row['firstName']?></th>
+  </tr>
+  <tr>
+    <th class="userDeets">Last Name</th>
+    <th class="userDeets"><?php echo $row['lastName']?></th>
+  </tr>
+    
+    <tr>
+    <th class="userDeets">Email</th>
+    <th class="userDeets"><?php echo $row['email']?></th>
+  </tr>
+    
+    <tr>
+    <th class="userDeets">Admin</th>
+    <th class="userDeets"><?php echo $row['admin_privileges']?><br>(0 = No, 1 = Yes)</th>
+  </tr>
+        
+    <tr>
+    <th class="userDeets">Gender</th>
+    <th class="userDeets"><?php echo $row['gender']?></th>
+  </tr>
+        
+    <tr>
+    <th class="userDeets">D.O.B</th>
+    <th class="userDeets"><?php echo $row['dateOfBirth']?></th>
+  </tr>
+        
+    <tr>
+    <th class="userDeets">Home Address</th>
+    <th class="userDeets"><?php echo $row['homeAddress']?></th>
+  </tr>
+        
+    <tr>
+    <th class="userDeets">Mobile</th>
+    <th class="userDeets"><?php echo $row['mobile']?></th>
+  </tr>
+        
+    <tr>
+    <th class="userDeets">Server</th>
+    <th class="userDeets"><?php echo $row['canBeServer']?> <br>(0 = No, 1 = Yes)</th>
+  </tr>
+    <?php } ?>
+    </table>
+    <hr>
+    
+</div> <!-- END container -->
+
+
+
+
+
+
+
+<!--------------------------------------------------------------
+----------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------->
+            
+            
+            
+            
+            
+				
+	<!--contact-->
+	<div class="contact" id="contact">
+		<div class="map">
+			<iframe>allowfullscreen</iframe>
+			<div class="map-color">
 			</div>
 		</div>
-		<!--//container-->
+		<div class="contact-grids">
+			
+			<div class="col-md-5 contact-grid">
+				<form>
+					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+					<input type="submit" value="Submit" >
+				</form>
+			</div>
+			<div class="col-md-3 contact-grid">
+				<div class="call">
+					<div class="col-xs-2 contact-grdl">
+						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+					</div>
+					<div class="col-xs-10 contact-grdr">
+						<ul>
+							<li>(07) 3138 2000</li>
+							
+						</ul>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="address">
+					<div class="col-xs-2 contact-grdl">
+						<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+					</div>
+					<div class="col-xs-10 contact-grdr">
+						<ul>
+							<li>2 George St,</li>
+							<li>Brisbane City QLD 4000</li>
+						</ul>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="mail">
+					<div class="col-xs-2 contact-grdl">
+						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+					</div>
+					<div class="col-xs-10 contact-grdr">
+						<ul>
+							<li>InstinctMeditation@outlook.com</li>
+						</ul>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
 	</div>
-	<!--//about-top-->
-
-	-
+	<!--//contact-->
 	<!--footer-->
 	<div class="footer">
 		<div class="footer-info">

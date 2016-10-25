@@ -1,35 +1,26 @@
 <?php
 include "serverConnection.php";
-
 if (!(isset($_SESSION['login']))){
 header ("Location:login.php");
-} else if(isset($_SESSION['iAmLogged'] )){
-    
-    
-    if($_SESSION['admin'] == 1) {
-        $navText = "<li class='active'><a href='admin.php' class='link link--yaku'><span>A</span><span>D</span><span>M</span><span>I</span><span>N</span></a></li>";
-    } else if($_SESSION['iAmLogged'] == 0) {
-        $navText = "<li><a href='bookings.php' class='link link--yaku'><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>";
-    }
-        
+} 
+
+if(isset($_SESSION['iAmLogged'] )){
 $error="";
-    
 // Selecting Users:
 $userinfo = "SELECT * FROM users";
 $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
-    
 
 // Selecting User Bookings for making a booking:
-$userBookinginfo = "SELECT * FROM bookings";
+$userBookinginfo = "SELECT * FROM serverBookings WHERE userID = '$_SESSION[userID]'";
 $bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
     
 // Selecting User Bookings for deletion:
-$userBookinginfo2 = "SELECT * FROM bookings";
+$userBookinginfo2 = "SELECT * FROM serverBookings WHERE userID = '$_SESSION[userID]'";
 $bookingpage2 = mysqli_query($con, $userBookinginfo2) or die(mysqli_error($con));     
     
 $check10Days = "SELECT * FROM bookings 
-WHERE now() <= courseStart ";  
-} 
+WHERE now() <= serverStart ";  
+}
 ?>
 <!--
 Author: W3layouts
@@ -94,7 +85,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<ul class="nav navbar-nav navbar-center">
 								<li><a href="loggedin.php"><span>H</span><span>O</span><span>M</span><span>E</span></a></li>
 								<li><a href="profile.php" class="link link--yaku"><span>P</span><span>R</span><span>O</span><span>F</span><span>I</span><span>L</span><span>E</span></a></li>
-								<!-- BOOKING HERE --><?php echo $navText; ?>
+								<li class="active"><a href="bookings.php" class="link link--yaku"><span>B</span><span>O</span><span>O</span><span>K</span><span>I</span><span>N</span><span>G</span><span>S</span></a></li>
 								<li><a href="gallery.php" class="link link--yaku"><span>G</span><span>A</span><span>L</span><span>L</span><span>E</span><span>R</span><span>Y</span></a></li></a></li>
 								<li><a href="#contact" class="scroll link link--yaku"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span> <span>U</span><span>S</span></a></li>
 								<li><a href="process/logout.php" class="link link--yaku"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span>L</span><span>O</span><span>G</span><span>O</span><span>U</span><span>T</span></a></li>
@@ -110,82 +101,50 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!--Shortcodes-page -->
 	<div class="codes">
 		<div class="container">
-			<h3 class="title">Admin</h3>
-<div id="adminTitle">
-    <hr> 	
-    <b><a href="admin.php"> Course Bookings </a></b> |
-    <a href="adminMessages.php"> Messages </a> |
-    <a href="adminServers.php"> Server Bookings </a>
-    <hr> 	
-            </div>
+			<h3 class="title">Book as a Server</h3>
+                <div id="adminTitle">
+                    <hr><a href="bookings.php"> Book a Course! </a><hr>
+                </div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 ------------------------------------------------------------------------------->
-
-            
 <div id="container">
     <div id="bookNow">
-    <br>
-        <form action="process/adminBooking.php" method="post" id="classBooking">        
-<table class="adminBooking">
-	<thead>
-	<tr>
-        <th>User ID</th>
-        <th>Gender ID </th>
-        <th>Course Type</th>
-		<th>Course Start</th>
-        <th>Confirm</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-        <td>
-        <select name="userID" >
-                    <?php while($row = mysqli_fetch_array($loginpage)) { ?>
-                    <option value="<?php $row['userID']; ?>"> 
-                          <?php echo $row['userID']; ?>: 
-                          <?php echo $row['firstName']; ?> 
-                          <?php echo $row['lastName']; ?>  
-                        <?php } ?>
-                    </option>
-                </select> 
-        </td>
-        <td>
-        <select name="gender" >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-        </td>
-        <td>
-        <select name="courseType" >
-            <option value="3">3</option>
-            <option value="10">10</option>
-            <option value="30">30</option>
-        </select> 
-        </td>
-        <td>
-        <input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required>
-        </td>
-        <td><input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ></td>
-	</tr>
-	</tbody>
-</table>
-            
-           
-</div> <!-- END bookNow -->
-        
 
-    <span id="bookingError" >
+    <br>
+        <form class="cd-form" action="process/processServerBooking.php" method="post" id="classBooking">
+        <div class="bookForm">
+            <div class="pos1-div"> 
+            <h3> Course Type:  </h3> <br>
+			<div class="select-div">	
+            <select name="courseType" >
+                  <option value="3">3 Day Course</option>
+                  <option value="10">10 Day Course</option>
+                  <option value="30">30 Day Course</option>
+            </select> </div> 
+            </div>
+    				</p>
+		
+            <div class="pos2-div">
+                <h3>Course Start: </h3> <br>
+						<input class="full-width has-padding has-border" id="serverStart" name="serverStart" type="date" min="2016-08-01" max="2100-01-02" required> 
+            </div>
+        
+             <div class="pos3-div">
+				<input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ><p>
+             </div>
+        </div>
+                        
+					</p> <br><br>
+
+     <span id="bookingError" >
         <b style="color:red;">
-            <?php 
-            if (isset($_SESSION['message'])){
-                    echo $_SESSION['message'];
-                    $_SESSION['message'] == "hi";
-            }
-            ?> </b>
-        </span>
+            <?php if (isset($_SESSION['message'])){
+        echo $_SESSION['message'];
+        $_SESSION['message']= ""; } ?>  </b>
+    </span>  
 
     <script>
 
@@ -195,7 +154,7 @@ function yesMondays(e){
     //Dont allow user to book a previous date
     //http://stackoverflow.com/questions/17182544/disable-certain-dates-from-html5-datepicker
     var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("courseStart")[0].setAttribute('min', today);
+    document.getElementsByName("serverStart")[0].setAttribute('min', today);
 
 
     var day = new Date( e.target.value ).getUTCDay();
@@ -210,35 +169,31 @@ date.addEventListener('input',yesMondays);
 
         </script>
 				</form>
-    </div> <!-- end bookingDiv -->
 
-<hr> 	
-<h3 class="title">Course Bookings</h3>	<br> <br>
+    </div> <!-- end bookingDiv -->
+<div id="clearDiv" style="clear:both;"> </div>
+	<br> <br> 
+<h3 class="title">My Server Bookings</h3>	<br> <br>
 
 <div id="myBookings">
-
 	<div class="tablepos">
     <table>
 	<thead>
 	<tr>
-        <th>Booking ID</th>
-        <th>User ID </th>
+        <th>Server Booking ID</th>
         <th>Date Booked</th>
 		<th>Course Start</th>
         <th>Course Type</th>
-        <th>Gender</th>
 	</tr>
 	</thead>
 	<tbody>
         <?php
     while($row = mysqli_fetch_array($bookingpage)) { ?>
 	<tr>
-        <td><?php echo strtoUpper($row['bookingID']) ?></td>
-        <td><?php echo strtoUpper($row['userID']) ?></td>
+        <td><?php echo strtoUpper($row['serverBookingID']) ?></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
-        <td><?php echo strtoUpper($row['courseStart']) ?> </td>
+        <td><?php echo strtoUpper($row['serverStart']) ?> </td>
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
-        <td><?php echo strtoUpper($row['gender']) ?></td>
         <?php }  ?>
 
 	</tr>
@@ -250,38 +205,27 @@ date.addEventListener('input',yesMondays);
     </div> <!-- end myBookings -->
 <br><br>
     <!-- START deleteBooking ***** Need at add feature for booking to only be deleted if course is 10+ days away!!!! ***** -->
-             <form action="process/adminDeleteBooking.php" method="post" id="deleteBooking"
+             <form action="process/deleteServerBooking.php" method="post" id="deleteBooking"
                    onSubmit="if(!confirm('Do you really want to cancel your booking?')){return false;}">
         <p> Wish to Cancel a booking? Select booking ID below and press delete:</p> <br>
 		<div class="select-div">
         <select name="deleteBooking">
-            <option selected="true" disabled>Select Booking ID</option>
+            <option selected="true" disabled>Select Server Booking ID</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
-            <option> <?php echo strtoUpper($row['bookingID']); } ?></option>
+            <option> <?php echo strtoUpper($row['serverBookingID']); } ?></option>
     </select> </div> <br> <br>
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
     <!-- END deleteBooking -->
 
-
 <br><br><br>
 </div> <!-- END container -->
 </div>
-
-
-
-
-
 
 <!--------------------------------------------------------------
 ----------------------------------------------------------------
 -------------------------------------------------------------------
 -------------------------------------------------------------------->
-            
-            
-            
-            
-            
 				
 	<!--contact-->
 	<div class="contact" id="contact">
@@ -293,14 +237,17 @@ date.addEventListener('input',yesMondays);
 		<div class="contact-grids">
 			
 			<div class="col-md-5 contact-grid">
-				<form>
-					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+				<form action="process/processMessage.php" method="post" id="message">    
+<input type="text" value="<?php echo $_SESSION['firstName'];?> <?php echo $_SESSION['lastName'];?>" disabled >
+                    
+<input type="text" value="<?php echo $_SESSION['email'];?>" placeholder="<?php echo $_SESSION['email'];?>" disabled >
+                    
+        <textarea type="text" maxlength="500" name="message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" >Message...</textarea>
 					<input type="submit" value="Submit" >
 				</form>
 			</div>
-			<div class="col-md-3 contact-grid">
+			
+            <div class="col-md-3 contact-grid">
 				<div class="call">
 					<div class="col-xs-2 contact-grdl">
 						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>

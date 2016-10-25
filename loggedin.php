@@ -281,14 +281,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="contact-grids">
 			
 			<div class="col-md-5 contact-grid">
-				<form>
-					<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-					<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-					<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+				<form action="process/processMessage.php" method="post" id="message">    
+<input type="text" value="<?php echo $_SESSION['firstName'];?> <?php echo $_SESSION['lastName'];?>" disabled >
+                    
+<input type="text" value="<?php echo $_SESSION['email'];?>" placeholder="<?php echo $_SESSION['email'];?>" disabled >
+                    
+        <textarea type="text" maxlength="500" name="message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" >Message...</textarea>
 					<input type="submit" value="Submit" >
 				</form>
 			</div>
-			<div class="col-md-3 contact-grid">
+			
+            <div class="col-md-3 contact-grid">
 				<div class="call">
 					<div class="col-xs-2 contact-grdl">
 						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>

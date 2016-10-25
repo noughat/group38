@@ -20,14 +20,14 @@ $loginpage = mysqli_query($con, $userinfo) or die(mysqli_error($con));
     
 
 // Selecting User Bookings for making a booking:
-$userBookinginfo = "SELECT * FROM bookings";
+$userBookinginfo = "SELECT * FROM serverBookings";
 $bookingpage = mysqli_query($con, $userBookinginfo) or die(mysqli_error($con));  
     
 // Selecting User Bookings for deletion:
-$userBookinginfo2 = "SELECT * FROM bookings";
+$userBookinginfo2 = "SELECT * FROM serverBookings";
 $bookingpage2 = mysqli_query($con, $userBookinginfo2) or die(mysqli_error($con));     
     
-$check10Days = "SELECT * FROM bookings 
+$check10Days = "SELECT * FROM serverBookings 
 WHERE now() <= courseStart ";  
 } 
 ?>
@@ -113,69 +113,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<h3 class="title">Admin</h3>
 <div id="adminTitle">
     <hr> 	
-    <b><a href="admin.php"> Course Bookings </a></b> |
+    <a href="admin.php"> Course Bookings </a> |
     <a href="adminMessages.php"> Messages </a> |
-    <a href="adminServers.php"> Server Bookings </a>
+    <b><a href="adminServers.php"> Server Bookings </a> </b>
     <hr> 	
-            </div>
+</div>
             
 <!-- --------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 ------------------------------------------------------------------------------->
-
-            
 <div id="container">
     <div id="bookNow">
+
     <br>
-        <form action="process/adminBooking.php" method="post" id="classBooking">        
-<table class="adminBooking">
-	<thead>
-	<tr>
-        <th>User ID</th>
-        <th>Gender ID </th>
-        <th>Course Type</th>
-		<th>Course Start</th>
-        <th>Confirm</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-        <td>
-        <select name="userID" >
-                    <?php while($row = mysqli_fetch_array($loginpage)) { ?>
-                    <option value="<?php $row['userID']; ?>"> 
-                          <?php echo $row['userID']; ?>: 
-                          <?php echo $row['firstName']; ?> 
-                          <?php echo $row['lastName']; ?>  
-                        <?php } ?>
-                    </option>
-                </select> 
-        </td>
-        <td>
-        <select name="gender" >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-        </td>
-        <td>
-        <select name="courseType" >
-            <option value="3">3</option>
-            <option value="10">10</option>
-            <option value="30">30</option>
-        </select> 
-        </td>
-        <td>
-        <input class="full-width has-padding has-border" id="courseStart" name="courseStart" type="date" min="2016-08-01" max="2100-01-02" required>
-        </td>
-        <td><input class='btn-lg btn-primary' type="submit" name="bookNow" value="Book Now" ></td>
-	</tr>
-	</tbody>
-</table>
+        <form action="process/adminBooking.php" method="post" id="classBooking">    
             
-           
-</div> <!-- END bookNow -->
-        
 
     <span id="bookingError" >
         <b style="color:red;">
@@ -212,9 +165,6 @@ date.addEventListener('input',yesMondays);
 				</form>
     </div> <!-- end bookingDiv -->
 
-<hr> 	
-<h3 class="title">Course Bookings</h3>	<br> <br>
-
 <div id="myBookings">
 
 	<div class="tablepos">
@@ -233,10 +183,10 @@ date.addEventListener('input',yesMondays);
         <?php
     while($row = mysqli_fetch_array($bookingpage)) { ?>
 	<tr>
-        <td><?php echo strtoUpper($row['bookingID']) ?></td>
-        <td><?php echo strtoUpper($row['userID']) ?></td>
+        <td><?php echo strtoUpper($row['serverBookingID']) ?></td>
+        <td><a href="adminUserDetails.php?userID=<?php echo $row['userID']?>"> <?php echo strtoUpper($row['userID']) ?></a></td>
         <td><?php echo strtoUpper($row['date']) ?></td>
-        <td><?php echo strtoUpper($row['courseStart']) ?> </td>
+        <td><?php echo strtoUpper($row['serverStart']) ?> </td>
         <td><?php echo strtoUpper($row['courseType']) ?> </td>
         <td><?php echo strtoUpper($row['gender']) ?></td>
         <?php }  ?>
@@ -250,14 +200,14 @@ date.addEventListener('input',yesMondays);
     </div> <!-- end myBookings -->
 <br><br>
     <!-- START deleteBooking ***** Need at add feature for booking to only be deleted if course is 10+ days away!!!! ***** -->
-             <form action="process/adminDeleteBooking.php" method="post" id="deleteBooking"
+             <form action="process/adminDeleteServerBooking.php" method="post" id="deleteBooking"
                    onSubmit="if(!confirm('Do you really want to cancel your booking?')){return false;}">
         <p> Wish to Cancel a booking? Select booking ID below and press delete:</p> <br>
 		<div class="select-div">
-        <select name="deleteBooking">
+        <select name="deleteServerBooking">
             <option selected="true" disabled>Select Booking ID</option>
             <?php while($row = mysqli_fetch_array($bookingpage2)) { ?>
-            <option> <?php echo strtoUpper($row['bookingID']); } ?></option>
+            <option> <?php echo strtoUpper($row['serverBookingID']); } ?></option>
     </select> </div> <br> <br>
         <input class='btn-lg btn-danger' type="submit" value="Cancel Booking" onClick="myFunction()">
         </form >
@@ -269,20 +219,11 @@ date.addEventListener('input',yesMondays);
 </div>
 
 
-
-
-
-
 <!--------------------------------------------------------------
 ----------------------------------------------------------------
 -------------------------------------------------------------------
 -------------------------------------------------------------------->
-            
-            
-            
-            
-            
-				
+            				
 	<!--contact-->
 	<div class="contact" id="contact">
 		<div class="map">
@@ -365,14 +306,6 @@ date.addEventListener('input',yesMondays);
 	<!--smooth-scrolling-of-move-up-->
 	<script type="text/javascript">
 		$(document).ready(function() {
-			/*
-			var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-			};
-			*/
 			
 			$().UItoTop({ easingType: 'easeOutQuart' });
 			
